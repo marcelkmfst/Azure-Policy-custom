@@ -48,7 +48,7 @@
               "variables": {},
               "resources": [
                 {
-                  "name": "[concat(parameters('name'), '/Microsoft.Insights/SiemensCentralLogAnalyticsWorkspace')]",
+                  "name": "[concat(parameters('name'), '/Microsoft.Insights/CentralLogAnalyticsWorkspace')]",
                   "type": "Microsoft.ContainerService/managedClusters/providers/diagnosticSettings",
                   "apiVersion": "2017-05-01-preview",
                   "properties": {

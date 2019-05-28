@@ -47,7 +47,7 @@
               "variables": {},
               "resources": [
                 {
-                  "name": "[concat(parameters('SSName'), '/Microsoft.Insights/SiemensCentralLogAnalyticsWorkspace')]",
+                  "name": "[concat(parameters('SSName'), '/Microsoft.Insights/CentralLogAnalyticsWorkspace')]",
                   "type": "Microsoft.Search/searchServices/providers/diagnosticSettings",
                   "apiVersion": "2017-05-01-preview",
                   "properties": {

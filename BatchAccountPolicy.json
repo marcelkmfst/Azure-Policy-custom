@@ -48,7 +48,7 @@
               "resources": [
                 {
                   "name": "[concat(parameters('name'), '/Microsoft.Insights/service')]",
-                  "type": "Microsoft.Batch/batchAccounts/providers/SiemensCentralLogAnalyticsWorkspace",
+                  "type": "Microsoft.Batch/batchAccounts/providers/CentralLogAnalyticsWorkspace",
                   "apiVersion": "2017-05-01-preview",
                   "properties": {
                     "workspaceId": "[parameters('logAnalytics')]",

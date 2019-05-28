@@ -47,7 +47,7 @@
               "variables": {},
               "resources": [
                 {
-                  "name": "[concat(parameters('name'), '/Microsoft.Insights/CentralLogAnalyticsWorkspace')]",
+                  "name": "[concat(parameters('name'), '/Microsoft.Insights/LogAnalyticsWorkspace')]",
                   "type": "Microsoft.ServiceBus/namespaces/providers/diagnosticSettings",
                   "apiVersion": "2017-05-01-preview",
                   "properties": {
