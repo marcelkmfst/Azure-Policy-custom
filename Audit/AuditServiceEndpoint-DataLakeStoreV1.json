@@ -1,0 +1,20 @@
+{
+    "mode": "Indexed",
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DataLakeStore/accounts"
+      },
+      "then": {
+        "effect": "AuditIfNotExists",
+        "details": {
+          "type": "Microsoft.DataLakeStore/accounts/virtualNetworkRules",
+          "existenceCondition": {
+            "field": "Microsoft.DataLakeStore/accounts/virtualNetworkRules/subnetId",
+            "like": "*"
+          }
+        }
+      }
+    },
+    "parameters": {}
+  }

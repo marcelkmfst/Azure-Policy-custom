@@ -1,0 +1,20 @@
+{
+    "mode": "Indexed",
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DBforMySQL/servers"
+      },
+      "then": {
+        "effect": "AuditIfNotExists",
+        "details": {
+          "type": "Microsoft.DBforMySQL/servers/virtualNetworkRules",
+          "existenceCondition": {
+            "field": "Microsoft.DBforMySQL/servers/virtualNetworkRules/virtualNetworkSubnetId",
+            "like": "*"
+          }
+        }
+      }
+    },
+    "parameters": {}
+  }

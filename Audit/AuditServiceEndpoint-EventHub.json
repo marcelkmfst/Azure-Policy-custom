@@ -1,0 +1,23 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "field": "type",
+      "equals": "Microsoft.EventHub/namespaces"
+    },
+    "then": {
+      "effect": "AuditIfNotExists",
+      "details": {
+        "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+        "name": "default",
+        "existenceCondition": {
+          "not": {
+            "field": "Microsoft.EventHub/namespaces/networkRuleSets/default.virtualNetworkRules[*].subnet.id",
+            "notLike": "*"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {}
+}

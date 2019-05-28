@@ -1,0 +1,20 @@
+{
+    "mode": "Indexed",
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DBforMariaDB/servers"
+      },
+      "then": {
+        "effect": "AuditIfNotExists",
+        "details": {
+          "type": "Microsoft.DBforMariaDB/servers/virtualNetworkRules",
+          "existenceCondition": {
+            "field": "Microsoft.DBforMariaDB/servers/virtualNetworkRules/virtualNetworkSubnetId",
+            "like": "*"
+          }
+        }
+      }
+    },
+    "parameters": {}
+  }
