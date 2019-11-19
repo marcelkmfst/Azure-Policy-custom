@@ -1,0 +1,12 @@
+"policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Resources/Subscriptions"
+      },
+      "then": {
+        "effect": "auditIfNotExists",
+        "details": {
+          "type": "Microsoft.Security/securityContacts"
+        }
+      }
+	}
