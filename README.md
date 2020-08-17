@@ -11,8 +11,8 @@ Add Request Body - type JSON
 
 **change PolicyDefinitionName in URL**
 
-<code>
-{
+
+<code> {
     "properties": {
         "displayName": "MK101-Audit-StorageAccount-AzureServices",
         "description": "this policy check if storage account allow access from Azure Services",
@@ -49,6 +49,5 @@ Add Request Body - type JSON
         }
     }
 }
-} 
+} </code>
 
-</code>
