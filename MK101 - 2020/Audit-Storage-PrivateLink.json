@@ -1,15 +1,16 @@
 {
         "properties": {
-            "displayName": "MK101-Audit-StorageAccount-AzureServices",
-            "description": "this policy check if storage account allow access from Azure Services",
+            "displayName": "MK101 - Audit Storage Accounts without PrivateLink",
+            "description": "this policy check if storage account is configured to use Privatelink",
             "mode": "all",
             "parameters": {
                         "effectType": {
                         "type": "string",
-                        "defaultValue": "Deny",
+                        "defaultValue": "Audit",
                         "allowedValues": [
                             "Deny",
-                            "Disabled"
+                            "Disabled",
+                            "Audit"
                         ],
                         "metadata": {
                             "displayName": "Effect",
@@ -22,7 +23,7 @@
             "if": {
                 "allOf": [{
                         "field": "type",
-                        "equals": "Microsoft.Compute/storageAccounts"
+                        "equals": "Microsoft.Storage/storageAccounts"
                     },
                     {
                         "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
