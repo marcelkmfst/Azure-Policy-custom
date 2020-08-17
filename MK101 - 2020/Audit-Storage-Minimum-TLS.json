@@ -1,0 +1,39 @@
+{
+    "properties": {
+        "displayName": "MK101 - Audit Storage Accounts without TLS Version of 1.2",
+        "description": "this policy check if storage account is configured to use TLS 1.2",
+        "mode": "all",
+        "parameters": {
+                    "effectType": {
+                    "type": "string",
+                    "defaultValue": "Audit",
+                    "allowedValues": [
+                        "Deny",
+                        "Disabled",
+                        "Audit"
+                    ],
+                    "metadata": {
+                        "displayName": "Effect",
+                        "description": "Enable or disable the execution of the policy"
+                    }
+                }
+            },
+    
+    "policyRule": {
+        "if": {
+            "allOf": [{
+                    "field": "type",
+                    "equals": "Microsoft.Storage/storageAccounts"
+                },
+                {
+                    "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
+                    "notequals": "TLS1_2"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effectType')]"
+        }
+    }
+}
+} 
