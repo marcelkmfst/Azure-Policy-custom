@@ -1,3 +1,9 @@
+https://management.azure.com/subscriptions/{{subscriptionId}}/providers/Microsoft.authorization/policydefinitions/{policyDefinitionName}?api-version=2019-09-01
+
+
+
+Das ganze mit Request Body - type JSON
+
 {
     "properties": {
         "displayName": "MK101-Audit-StorageAccount-AzureServices",
@@ -17,7 +23,7 @@
                     }
                 }
             },
-        
+    
     "policyRule": {
         "if": {
             "allOf": [{
@@ -25,13 +31,16 @@
                     "equals": "Microsoft.Compute/storageAccounts"
                 },
                 {
-                    "field": "Microsoft.Compute/virtualMachines/sku.name",
-                    "like": "Standard_G*"
+                    "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+                    "notequals": "AzureServices*"
                 }
             ]
         },
         "then": {
-            "effect": "deny"
+            "effect": "[parameters('effectType')]"
         }
     }
 }
+} 
+
+
