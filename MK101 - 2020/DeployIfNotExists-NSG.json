@@ -1,0 +1,169 @@
+// this policy deploys a NSG with Outbound deny if not exists
+
+{
+    "policyType": "Custom",
+    "mode": "All",
+    "displayName": "Deploy Storage Account if not already present",
+    "description": "This policy automatically deploys a Storage Account if it not exists already",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DesktopVirtualization/applicationgroups"
+          },
+          {
+            "field": "kind",
+            "equals": "Desktop"
+          }
+        ]
+      },
+      "then": {
+        "effect": "deployIfNotExists",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+                "equals": "[parameters('LogsEnabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+                "equals": "[parameters('MetricsEnabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                "equals": "[parameters('logAnalytics')]"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "logAnalytics": {
+                    "type": "string"
+                  },
+                  "metricsEnabled": {
+                    "type": "string"
+                  },
+                  "logsEnabled": {
+                    "type": "string"
+                  },
+                  "profileName": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.DesktopVirtualization/applicationgroups/providers/diagnosticSettings",
+                    "apiVersion": "2017-05-01-preview",
+                    "name": "[concat(parameters('name'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                    "dependsOn": [],
+                    "properties": {
+                      "workspaceId": "[parameters('logAnalytics')]",
+                      "logs": [
+                        {
+                          "category": "Checkpoint",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "Error",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "Management",
+                          "enabled": "[parameters('logsEnabled')]"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat(parameters('logAnalytics'), 'configured for diagnostic logs for ', ': ', parameters('name'))]"
+                  }
+                }
+              },
+              "parameters": {
+                "logAnalytics": {
+                  "value": "[parameters('logAnalytics')]"
+                },
+                "name": {
+                  "value": "[field('name')]"
+                },
+                "metricsEnabled": {
+                  "value": "[parameters('metricsEnabled')]"
+                },
+                "logsEnabled": {
+                  "value": "[parameters('logsEnabled')]"
+                },
+                "profileName": {
+                  "value": "[parameters('profileName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "category": "Monitoring",
+      "createdBy": "a211f25b-d690-40b8-b8a3-73e47a1b2131",
+      "createdOn": "2020-08-12T14:56:27.6675101Z",
+      "updatedBy": "a211f25b-d690-40b8-b8a3-73e47a1b2131",
+      "updatedOn": "2020-08-12T16:05:54.7246707Z"
+    },
+    "parameters": {
+      "profileName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Profile Name for Config",
+          "description": "The profile name Azure Diagnostics"
+        }
+      },
+      "logAnalytics": {
+        "type": "String",
+        "metadata": {
+          "displayName": "logAnalytics",
+          "description": "The target Log Analytics Workspace for Azure Diagnostics",
+          "strongType": "omsWorkspace"
+        }
+      },
+      "metricsEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable Metrics",
+          "description": "Enable Metrics - True or False"
+        },
+        "allowedValues": [
+          "True",
+          "False"
+        ],
+        "defaultValue": "False"
+      },
+      "logsEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable Logs",
+          "description": "Enable Logs - True or False"
+        },
+        "allowedValues": [
+          "True",
+          "False"
+        ],
+        "defaultValue": "True"
+      }
+    },
