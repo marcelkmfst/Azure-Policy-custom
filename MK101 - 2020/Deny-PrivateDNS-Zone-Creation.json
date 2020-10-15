@@ -1,0 +1,35 @@
+{
+    "properties": {
+        "displayName": "MK101 - Disallow Private DNS Zone creation",
+        "description": "this policy disallows the creation of Private DNS Zones",
+        "mode": "all",
+        "parameters": {
+                    "effectType": {
+                    "type": "string",
+                    "defaultValue": "Audit",
+                    "allowedValues": [
+                        "Deny",
+                        "Disabled",
+                        "Audit"
+                    ],
+                    "metadata": {
+                        "displayName": "Effect",
+                        "description": "Choose to aduit or to Deny"
+                    }
+                }
+            },
+    
+    "policyRule": {
+        "if": {
+            "allOf": [{
+                    "field": "type",
+                    "equals": "Microsoft.Network/privateDnsZones"
+                }]
+        },
+
+        "then": {
+            "effect": "[parameters('effectType')]"
+        }
+    }
+}
+} 
