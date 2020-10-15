@@ -1,0 +1,103 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Compute/virtualMachines"
+        },
+        {
+          "field": "Microsoft.Compute/imageId",
+          "like": "[parameters('sharedImageGalleryId')]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "deployIfNotExists",
+      "details": {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+        ],
+        "existenceCondition": {
+          "allOf": [
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/type",
+              "equals": "DependencyAgentWindows"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+              "equals": "Microsoft.Azure.Monitoring.DependencyAgent"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+              "equals": "Succeeded"
+            }
+          ]
+        },
+        "deployment": {
+          "properties": {
+            "mode": "incremental",
+            "template": {
+              "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "vmName": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                }
+              },
+              "variables": {
+                "vmExtensionName": "DependencyAgentWindows",
+                "vmExtensionPublisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                "vmExtensionType": "DependencyAgentWindows",
+                "vmExtensionTypeHandlerVersion": "9.6"
+              },
+              "resources": [
+                {
+                  "type": "Microsoft.Compute/virtualMachines/extensions",
+                  "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                  "apiVersion": "2018-06-01",
+                  "location": "[parameters('location')]",
+                  "properties": {
+                    "publisher": "[variables('vmExtensionPublisher')]",
+                    "type": "[variables('vmExtensionType')]",
+                    "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
+                    "autoUpgradeMinorVersion": true
+                  }
+                }
+              ],
+              "outputs": {
+                "policy": {
+                  "type": "string",
+                  "value": "[concat('Enabled extension for VM', ': ', parameters('vmName'))]"
+                }
+              }
+            },
+            "parameters": {
+              "vmName": {
+                "value": "[field('name')]"
+              },
+              "location": {
+                "value": "[field('location')]"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "sharedImageGalleryId": {
+      "type": "String",
+      "metadata": {
+        "displayName": "sharedImageGallery referenceId",
+        "description": "Example value: '/subscriptions/96b562f0-87ca-42cc-a40a-52a59bce4da0/resourceGroups/rg-cloud-osp-management/providers/Microsoft.Compute/galleries/imgosp/images'"
+      },
+      "defaultValue": "/subscriptions/96b562f0-87ca-42cc-a40a-52a59bce4da0/resourceGroups/rg-cloud-osp-management/providers/Microsoft.Compute/galleries/imgosp/images"
+    }
+  }
+}
