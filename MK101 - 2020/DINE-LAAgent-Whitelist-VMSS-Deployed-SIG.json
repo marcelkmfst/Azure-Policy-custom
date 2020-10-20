@@ -1,5 +1,5 @@
 {
-  "mode": "Indexed",
+  "mode": "all",
   "policyRule": {
     "if": {
       "allOf": [
@@ -24,11 +24,11 @@
           "allOf": [
             {
               "field": "Microsoft.Compute/virtualMachines/extensions/type",
-              "equals": "MicrosoftMonitoringAgent"
+              "equals": "DependencyAgentWindows"
             },
             {
               "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
-              "equals": "Microsoft.EnterpriseCloud.Monitoring"
+              "equals": "Microsoft.Azure.Monitoring.DependencyAgent"
             },
             {
               "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
@@ -48,35 +48,25 @@
                 },
                 "location": {
                   "type": "string"
-                },
-                "logAnalytics": {
-                  "type": "string"
                 }
               },
               "variables": {
-                "vmExtensionName": "MicrosoftMonitoringAgent",
-                "vmExtensionPublisher": "Microsoft.EnterpriseCloud.Monitoring",
-                "vmExtensionType": "MicrosoftMonitoringAgent",
-                "vmExtensionTypeHandlerVersion": "1.0"
+                "vmExtensionName": "DependencyAgentWindows",
+                "vmExtensionPublisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                "vmExtensionType": "DependencyAgentWindows",
+                "vmExtensionTypeHandlerVersion": "9.6"
               },
               "resources": [
                 {
-                  "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
                   "type": "Microsoft.Compute/virtualMachines/extensions",
-                  "location": "[parameters('location')]",
+                  "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
                   "apiVersion": "2018-06-01",
+                  "location": "[parameters('location')]",
                   "properties": {
                     "publisher": "[variables('vmExtensionPublisher')]",
                     "type": "[variables('vmExtensionType')]",
                     "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
-                    "autoUpgradeMinorVersion": true,
-                    "settings": {
-                      "workspaceId": "[reference(parameters('logAnalytics'), '2015-03-20').customerId]",
-                      "stopOnMultipleConnections": "true"
-                    },
-                    "protectedSettings": {
-                      "workspaceKey": "[listKeys(parameters('logAnalytics'), '2015-03-20').primarySharedKey]"
-                    }
+                    "autoUpgradeMinorVersion": true
                   }
                 }
               ],
@@ -93,9 +83,6 @@
               },
               "location": {
                 "value": "[field('location')]"
-              },
-              "logAnalytics": {
-                "value": "[parameters('logAnalytics')]"
               }
             }
           }
@@ -104,15 +91,6 @@
     }
   },
   "parameters": {
-    "logAnalytics": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Log Analytics workspace",
-        "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
-        "strongType": "omsWorkspace",
-        "assignPermissions": true
-      }
-    },
     "sharedImageGalleryId": {
       "type": "String",
       "metadata": {
