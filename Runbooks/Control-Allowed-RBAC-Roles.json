@@ -1,0 +1,44 @@
+{
+    "properties": {
+      "displayName": "Control-Allowed-RBAC-Roles",
+      "policyType": "Custom",
+      "mode": "All",
+      "metadata": {
+        "createdBy": "a211f25b-d690-40b8-b8a3-73e47a1b2131",
+        "createdOn": "2020-10-14T09:23:38.1236925Z",
+        "updatedBy": null,
+        "updatedOn": null
+      },
+      "parameters": {
+        "roleDefinitionIds": {
+          "type": "Array",
+          "metadata": {
+            "displayName": "Approved Role Definitions",
+            "description": "The list of role definition Ids"
+          }
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Authorization/roleAssignments"
+            },
+            {
+              "not": {
+                "field": "Microsoft.Authorization/roleAssignments/roleDefinitionId",
+                "in": "[parameters('roleDefinitionIds')]"
+              }
+            }
+          ]
+        },
+        "then": {
+          "effect": "deny"
+        }
+      }
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/110c879b-9489-4244-9d7e-113d8dcf5875/providers/Microsoft.Authorization/policyDefinitions/4e0d71d2-409c-4c23-9082-6cead923cd90",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "4e0d71d2-409c-4c23-9082-6cead923cd90"
+  }
