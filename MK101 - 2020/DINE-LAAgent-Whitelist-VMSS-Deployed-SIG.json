@@ -8,7 +8,7 @@
           "equals": "Microsoft.Compute/virtualMachineScaleSets"
         },
         {
-          "field": "Microsoft.Compute/imageId",
+          "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference",
           "like": "[parameters('sharedImageGalleryId')]"
         }
       ]
