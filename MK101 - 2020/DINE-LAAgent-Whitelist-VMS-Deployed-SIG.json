@@ -8,7 +8,7 @@
           "equals": "Microsoft.Compute/virtualMachines"
         },
         {
-          "field": "Microsoft.Compute/imageId",
+          "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference",
           "like": "[parameters('sharedImageGalleryId')]"
         }
       ]
@@ -23,7 +23,7 @@
         "existenceCondition": {
           "allOf": [
             {
-              "field": "Microsoft.Compute/virtualMachines/extensions/type",
+             "field": "Microsoft.Compute/virtualMachines/extensions/type",
               "equals": "MicrosoftMonitoringAgent"
             },
             {
