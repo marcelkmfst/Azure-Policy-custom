@@ -38,13 +38,13 @@
           "details": {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "roleDefinitionIds": [
-              "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+              "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
             ],
             "existenceCondition": {
               "allOf": [
                 {
                   "field": "Microsoft.Compute/virtualMachines/extensions/type",
-                  "equals": "Microsoft.Azure.NetworkWatcher"
+                  "equals": "NetworkWatcherAgentWindows"
                 },
                 {
                   "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
