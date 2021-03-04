@@ -29,10 +29,6 @@
             {
               "field": "type",
               "equals": "Microsoft.Sql/servers"
-            },
-            {
-              "field": "Microsoft.Sql/servers/minimalTlsVersion",
-              "notEquals": "1.2"
             }
           ]
         },
@@ -45,7 +41,6 @@
             "conflictEffect": "audit",
             "operations": [
               {
-              "condition": "[greater(requestContext().apiVersion, '2019-10-01')]",
                 "operation": "addOrReplace",
                 "field": "Microsoft.Sql/servers/minimalTlsVersion",
                 "value": "1.2"
