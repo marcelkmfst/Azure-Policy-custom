@@ -31,8 +31,25 @@
               "equals": "Microsoft.Sql/servers"
             },
             {
-              "field": "Microsoft.Sql/servers/minimalTlsVersion",
-              "notEquals": "1.2"
+              "anyOf": [
+                {
+                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                  "exists": false
+                },
+                {
+                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                  "notequals": "1.2"
+                },
+                {
+                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                  "equals": "1.0"
+                },
+                {
+                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                  "equals": "1.1"
+                }
+
+              ]
             }
           ]
         },
